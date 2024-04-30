@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6snnfo0h$vuc6p=bzk@xhv=hb*o90cr@x**b#144001$5a1sy0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '18.208.151.225']
 
 
 # Application definition
@@ -137,10 +137,4 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 AUTH_USER_MODEL = 'register.User'
 
-RUNSERVERPLUS_SERVER_ADDRESS_PORT = '127.0.0.1:8000'
-
-# # Static files
-# # https://docs.djangoproject.com/en/5.0/howto/static-files/
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'templates/../static')
-# ]
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:8000'
