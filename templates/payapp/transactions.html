@@ -1,0 +1,48 @@
+{% extends 'webapps2024/base.html' %}
+
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+    <h3>Account Balance: <span class="account">{{ user.balance }} {{ user.currency }}</span></h3>
+    <br/>
+    <div>
+        <h4>All Transactions</h4>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Currency</th>
+            </tr>
+            {% for t in transaction_list %}
+                <tr>
+                    <td>{{ t.timestamp }}</td>
+                    <td>
+                        {% if t.sender == user %}
+                            <span class="name">You</span>
+                        {% else %}
+                            {{ t.sender.email }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if t.recipient == user %}
+                            <span class="name">You</span>
+                        {% else %}
+                            {{ t.recipient.email }}
+                        {% endif %}
+                    </td>
+                    <td>{{ t.amount }}</td>
+                    <td>{{ t.currency }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No transaction history.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'webapps2024/base.html' %}
+
+{% load static %}
+
+{% block title %}Web App Payments{% endblock %}
+
+{% block content %}
+    <div>
+        <img src="{% static 'banner.jpg' %}" alt="Payment Services" style="width: 100%">
+    </div>
+    <br/>
+    <div>
+        {% if user.is_authenticated %}
+            <h1>Welcome back, <span class="name">{{ user.first_name }} {{ user.last_name }}</span></h1>
+            <h3>Account Balance: <span class="account">{{ user.balance }} {{ user.currency }}</span></h3>
+        {% else %}
+            <h1>Welcome to Web Apps Payments!</h1>
+            <p>This is a secure and convenient service to send and receive money online.</p>
+        {% endif %}
+    </div>
+    <br/>
+    {% if user.is_authenticated %}
+        <div>
+            <h4>Your Pending Requests</h4>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                {% for request in request_list %}
+                    <tr>
+                        <td>{{ request.timestamp }}</td>
+                        <td>
+                            {% if request.request_user == user %}
+                                <span class="name">You</span>
+                            {% else %}
+                                {{ request.request_user.email }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if request.receive_user == user %}
+                                <span class="name">You</span>
+                            {% else %}
+                                {{ request.receive_user.email }}
+                            {% endif %}
+                        </td>
+                        <td>{{ request.amount }}</td>
+                        <td>{{ request.request_currency }}</td>
+                        <td><span class="status_pending">{{ request.status }}</span></td>
+                        <td>
+                            {% if request.receive_user == user and request.status == 'Pending' %}
+                                <a href="{% url 'approve_payment' request.id %}" 
+                                   class="btn btn-success btn-sm">Approve</a>
+                                <a href="{% url 'reject_payment' request.id %}"
+                                   class="btn btn-danger btn-sm">Reject</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7">No pending request.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br/>
+        <br/>
+        <div>
+            <h4>Recent Transactions</h4>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                </tr>
+                {% for t in transaction_list %}
+                    <tr>
+                        <td>{{ t.timestamp }}</td>
+                        <td>
+                            {% if t.sender == user %}
+                                <span class="name">You</span>
+                            {% else %}
+                                {{ t.sender.email }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if t.recipient == user %}
+                                <span class="name">You</span>
+                            {% else %}
+                                {{ t.recipient.email }}
+                            {% endif %}
+                        </td>
+                        <td>{{ t.amount }}</td>
+                        <td>{{ t.currency }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No transaction history.</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div class="right_aligned">
+                <a href="{% url 'transactions' %}">View All Transactions</a>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    {% endif %}
+    <div>
+        <h5>Let's make a transaction.</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Send Payment
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Send payment to friends and family.</p>
+                        {% if user.is_authenticated %}
+                            <a href="/account/send_payment" class="btn btn-primary">Send Now</a>
+                        {% else %}
+                            <a href="/login" class="btn btn-primary">Send Now</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Request Payment
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Request payment for rent, bills, and more.</p>
+                        {% if user.is_authenticated %}
+                            <a href="/account/request_payment" class="btn btn-primary">Request Now</a>
+                        {% else %}
+                            <a href="/login" class="btn btn-primary">Send Now</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
