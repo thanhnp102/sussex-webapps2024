@@ -24,4 +24,5 @@ urlpatterns = [
     path('approve_request/<int:request_id>/', views.approve_payment, name='approve_payment'),
     path('reject_payment/<int:request_id>/', views.reject_payment, name='reject_payment'),
     path('transactions/', views.all_transactions, name="transactions"),
+    path('request_history/', views.all_requests, name="request_history"),
 ]

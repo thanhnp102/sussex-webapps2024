@@ -192,6 +192,21 @@ def all_transactions(request):
         return redirect('home')
 
 
+@csrf_protect
+def all_requests(request):
+    if request.user.is_authenticated:
+        try:
+            with transaction.atomic():
+                request_list = RequestPayment.objects.filter(
+                    Q(request_user=request.user) | Q(receive_user=request.user)
+                ).order_by('-timestamp')
+        except ValueError:
+            messages.error(request, 'Payment Requests is not available.')
+        return render(request, 'payapp/request_history.html', context={"request_list": request_list})
+    else:
+        return redirect('home')
+
+
 def timestamp(request):
     timestamp = get_timestamp().strftime("%Y-%m-%d %H:%M:%S")
     return render(request, 'webapps2024/timestamp.html', context={"timestamp": timestamp})

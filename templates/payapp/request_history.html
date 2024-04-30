@@ -1,0 +1,58 @@
+{% extends 'webapps2024/base.html' %}
+
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block title %}Request History{% endblock %}
+
+{% block content %}
+    <h3>Account Balance: <span class="account">{{ user.balance }} {{ user.currency }}</span></h3>
+    <br/>
+    <div>
+        <h4>All Payment Requests</h4>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Status</th>
+            </tr>
+            {% for t in request_list %}
+                <tr>
+                    <td>{{ t.timestamp }}</td>
+                    <td>
+                        {% if t.request_user == user %}
+                            <span class="name">You</span>
+                        {% else %}
+                            {{ t.request_user.email }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if t.receive_user == user %}
+                            <span class="name">You</span>
+                        {% else %}
+                            {{ t.receive_user.email }}
+                        {% endif %}
+                    </td>
+                    <td>{{ t.amount }}</td>
+                    <td>{{ t.request_currency }}</td>
+                    <td>
+                        {% if t.status == 'Pending' %}
+                            <span class="status_pending">{{ t.status }}</span>
+                        {% elif t.status == 'Completed' %}
+                            <span class="status_completed">{{ t.status }}</span>
+                        {% else %}
+                            <span class="status_rejected">{{ t.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No request history.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

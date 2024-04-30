@@ -19,6 +19,12 @@
         .status_pending{
             color: darkgoldenrod;
         }
+        .status_completed{
+            color: green;
+        }
+        .status_rejected{
+            color: red;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
@@ -48,6 +54,9 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="/account/transactions">Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/account/request_history">Request History</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/account/send_payment">Send Payment</a>
