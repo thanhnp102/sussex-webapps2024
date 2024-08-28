@@ -32,19 +32,19 @@ The goal of this project is to create a Django-based web application where users
    - Super-users can view all transactions across all users.
 
 5. **Currency Conversion Service**:
-   - A separate RESTful web service handles currency conversion between GBP, USD, and EUR using hard-coded exchange rates.
+   - A separate RESTful web service handles currency conversion between currencies using hard-coded exchange rates.
 
 
 ## Repository Structure
 
-- `webapp/`: The Django project directory containing all the application code, including:
-  - `models.py`: Defines the data models for users, transactions, and accounts.
-  - `views.py`: Implements the business logic for handling payments, requests, and account management.
-  - `urls.py`: Maps URLs to the appropriate views.
-  - `templates/`: Contains HTML templates for the user interface.
-  - `admin.py`: Configures the Django admin interface for managing users and transactions.
+- `payapp/`: The Django application handling the payment services including sending and receiving money
 
-- `restservice/`: A separate directory for the RESTful web service handling currency conversions.
-  - `conversion_service.py`: Implements the RESTful API with hard-coded currency exchange rates.
+- `register/`: The Django application handling the all services about user management
+
+- `conversion/`: The Django application for the currency conversion API
+
+- `templates/`: Contains HTML templates for the user interface.
+
+- `thrift_service/`: Contains the implementation of the Thrift timestamp service.
 
 - `requirements.txt`: Lists the required Python libraries and dependencies for running the project.
