@@ -1,4 +1,4 @@
-# Web Applications and Services - Multi-User Payment Service
+# Multi-User Payment Service
 
 This repository contains the submission for the Web Applications and Services module assignment. The project involves the design and implementation of a simplified web-based, multi-user payment service using the Django framework. The system functions similarly to PayPal, allowing users to send and receive money, request payments, and manage their accounts, with administrative access for super-users to oversee all transactions.
 
